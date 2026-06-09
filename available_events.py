@@ -1,4 +1,4 @@
-from db import get_connection, out_table
+from db import get_connection
 
 def available_events(args):
     # args: [date]
@@ -24,3 +24,4 @@ def available_events(args):
     finally:
         if conn:
             conn.close()
+

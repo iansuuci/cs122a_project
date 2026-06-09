@@ -1,8 +1,9 @@
-from db import get_connection, out_bool, to_bool
+from db import get_connection
 
 def add_venue(args):
     # args: [eid, vid, is_primary]
-    eid, vid, is_primary = int(args[0]), int(args[1]), int(args[2])
+    eid, vid = int(args[0]), int(args[1])
+    is_primary = 1 if args[2].lower() == "true" else 0
     conn = None
     try:
         conn = get_connection()
@@ -19,7 +20,7 @@ def add_venue(args):
                 return False
         cur.execute(
             "INSERT INTO Hosting (eid, vid, is_primary) VALUES (%s, %s, %s)",
-            (eid, vid, to_bool(is_primary))
+            (eid, vid, is_primary)
         )
         conn.commit()
         return True

@@ -1,4 +1,4 @@
-from db import get_connection, out_table
+from db import get_connection
  
 def organizer_stats(args):
     # args: [N]
