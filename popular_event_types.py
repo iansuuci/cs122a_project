@@ -1,6 +1,7 @@
-from db import get_connection, out_table
+from db import get_connection
 
-def popular_event_types(n):
+def popular_event_types(args):
+    n = int(args[0])
     conn = None
     try:
         conn = get_connection()
@@ -13,7 +14,7 @@ def popular_event_types(n):
             HAVING COUNT(*) >= %s
             ORDER BY COUNT(*) DESC, e.type ASC
         """, (n,))
-        out_table(cur.fetchall())
+        return cur.fetchall()
     finally:
         if conn:
             conn.close()
