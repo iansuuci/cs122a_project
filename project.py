@@ -40,7 +40,7 @@ def print_result(result):
 
 def main():
     command = sys.argv[1]
-    args = sys.argv[2:]
+    args = [None if arg == "NULL" else arg for arg in sys.argv[2:]]
     result = COMMANDS[command](args)
     print_result(result)
 
