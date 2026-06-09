@@ -20,7 +20,7 @@ def available_events(args):
                 e.datetime ASC,
                 e.eid ASC
         """, (date,))
-        out_table(cur.fetchall())
+        return cur.fetchall()
     finally:
         if conn:
             conn.close()

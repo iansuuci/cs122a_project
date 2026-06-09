@@ -8,16 +8,16 @@ def organizer_stats(args):
         conn = get_connection()
         cur = conn.cursor()
         cur.execute("""
-            SELECT e.creator_uid,
-                   COUNT(DISTINCT e.eid),
-                   COUNT(CASE WHEN s.is_reserved = 1 THEN 1 END)
-            FROM Event e
-            LEFT JOIN Slot s ON e.eid = s.eid
-            GROUP BY e.creator_uid
-            HAVING COUNT(DISTINCT e.eid) >= %s
-            ORDER BY COUNT(DISTINCT e.eid) DESC, e.creator_uid ASC
+            SELECT o.uid, u.username, o.department, COUNT(e.eid) AS eventCount
+            FROM Organizer o
+            JOIN User u ON o.uid = u.uid
+            JOIN Event e ON e.creator_uid = o.uid
+            GROUP BY o.uid, u.username, o.department
+            HAVING COUNT(e.eid) >= %s
+            ORDER BY eventCount DESC, o.uid ASC
         """, (n,))
-        out_table(cur.fetchall())
+
+        return cur.fetchall()
     finally:
         if conn:
             conn.close()
