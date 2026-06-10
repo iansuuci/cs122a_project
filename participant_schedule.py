@@ -17,7 +17,7 @@ def participant_schedule(args):
             LEFT JOIN Hosting h ON e.eid = h.eid AND h.is_primary = 1
             LEFT JOIN Venue v ON h.vid = v.vid
             WHERE s.uid = %s AND s.is_reserved = 1
-            ORDER BY e.datetime ASC, e.eid ASC
+            ORDER BY e.datetime ASC
             """,
             (uid,),
         )
