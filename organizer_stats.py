@@ -11,7 +11,7 @@ def organizer_stats(args):
             SELECT o.uid, u.username, o.department, COUNT(e.eid) AS eventCount
             FROM Organizer o
             JOIN User u ON o.uid = u.uid
-            JOIN Event e ON e.creator_uid = o.uid
+            LEFT JOIN Event e ON e.creator_uid = o.uid
             GROUP BY o.uid, u.username, o.department
             HAVING COUNT(e.eid) >= %s
             ORDER BY eventCount DESC, o.uid ASC

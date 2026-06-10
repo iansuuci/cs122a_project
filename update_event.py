@@ -18,6 +18,11 @@ def update_event(args):
         if cur.rowcount > 0:
             conn.commit()
             return True
+
+        cur.execute("SELECT 1 FROM Event WHERE eid = %s", (eid,))
+        if cur.fetchone() is not None:
+            return True
+
         conn.rollback()
         return False
     except Exception:

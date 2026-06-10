@@ -7,12 +7,12 @@ def popular_event_types(args):
         conn = get_connection()
         cur = conn.cursor()
         cur.execute("""
-            SELECT e.type, COUNT(*)
-            FROM Event e JOIN Slot s ON e.eid = s.eid
-            WHERE s.is_reserved = 1
+            SELECT e.type, COUNT(CASE WHEN s.is_reserved = 1 THEN 1 END) AS reservedCount
+            FROM Event e
+            LEFT JOIN Slot s ON e.eid = s.eid
             GROUP BY e.type
-            HAVING COUNT(*) >= %s
-            ORDER BY COUNT(*) DESC, e.type ASC
+            HAVING reservedCount >= %s
+            ORDER BY reservedCount DESC, e.type ASC
         """, (n,))
         return cur.fetchall()
     finally:
